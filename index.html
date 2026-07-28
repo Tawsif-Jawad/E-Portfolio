@@ -1,0 +1,2158 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Eportfolio — Tawsif Jawad</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap"
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    />
+    <style>
+      :root {
+        --bg: #093145;
+        --surface: #0e0e12;
+        --border: rgba(255, 255, 255, 0.07);
+        --accent: #00e1ff;
+        --accent2: #ff4d6d;
+        --accent3: #5ee7ff;
+        --text: #f0eeea;
+        --muted: #666560;
+        --font-display: "Syne", sans-serif;
+        --font-mono: "Space Mono", monospace;
+      }
+
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--font-display);
+        overflow-x: hidden;
+        cursor: none;
+      }
+
+      /* ── Custom Cursor ── */
+      #cursor {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 9999;
+        pointer-events: none;
+      }
+      .cursor-dot {
+        width: 8px;
+        height: 8px;
+        background: var(--accent);
+        border-radius: 50%;
+        position: absolute;
+        transform: translate(-50%, -50%);
+        transition:
+          width 0.2s,
+          height 0.2s,
+          background 0.2s;
+      }
+      .cursor-ring {
+        width: 36px;
+        height: 36px;
+        border: 1.5px solid rgba(200, 245, 66, 0.5);
+        border-radius: 50%;
+        position: absolute;
+        transform: translate(-50%, -50%);
+        transition:
+          width 0.35s cubic-bezier(0.23, 1, 0.32, 1),
+          height 0.35s cubic-bezier(0.23, 1, 0.32, 1),
+          border-color 0.2s;
+      }
+      body.hovering .cursor-dot {
+        width: 12px;
+        height: 12px;
+        background: var(--accent2);
+      }
+      body.hovering .cursor-ring {
+        width: 60px;
+        height: 60px;
+        border-color: var(--accent2);
+      }
+
+      /* ── Noise Overlay ── */
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: 9998;
+        pointer-events: none;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+        opacity: 0.035;
+      }
+
+      /* ── NAV ── */
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 24px 48px;
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-bottom: 1px solid var(--border);
+        background: rgba(6, 6, 8, 0.7);
+      }
+      .nav-logo {
+        font-size: 18px;
+        font-weight: 800;
+        letter-spacing: -0.5px;
+        color: var(--text);
+        text-decoration: none;
+      }
+      .nav-logo span {
+        color: var(--accent);
+      }
+      .nav-links {
+        display: flex;
+        gap: 40px;
+        list-style: none;
+      }
+      .nav-links a {
+        font-family: var(--font-mono);
+        font-size: 12px;
+        color: var(--muted);
+        text-decoration: none;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        transition: color 0.2s;
+        position: relative;
+      }
+      .nav-links a::after {
+        content: "";
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        width: 0;
+        height: 1px;
+        background: var(--accent);
+        transition: width 0.3s;
+      }
+      .nav-links a:hover {
+        color: var(--accent);
+      }
+      .nav-links a:hover::after {
+        width: 100%;
+      }
+      .nav-pill {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--accent);
+        color: #000;
+        font-family: var(--font-mono);
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        padding: 10px 20px;
+        border-radius: 100px;
+        text-decoration: none;
+        transition:
+          transform 0.2s,
+          box-shadow 0.2s;
+      }
+      .nav-pill:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 30px rgb(0, 217, 255);
+      }
+
+      /* ── HERO ── */
+      #hero {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding: 0 48px 80px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero-bg-grid {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        background-size: 80px 80px;
+        mask-image: radial-gradient(
+          ellipse 80% 80% at 50% 50%,
+          black 20%,
+          transparent 100%
+        );
+      }
+
+      .hero-orb {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(80px);
+        pointer-events: none;
+        animation: orbFloat 8s ease-in-out infinite alternate;
+      }
+      .orb1 {
+        width: 600px;
+        height: 600px;
+        top: -200px;
+        right: -100px;
+        background: rgba(200, 245, 66, 0.12);
+        animation-duration: 9s;
+      }
+      .orb2 {
+        width: 400px;
+        height: 400px;
+        bottom: 0;
+        left: -150px;
+        background: rgba(94, 231, 255, 0.1);
+        animation-duration: 11s;
+        animation-delay: -3s;
+      }
+      .orb3 {
+        width: 300px;
+        height: 300px;
+        top: 30%;
+        right: 20%;
+        background: rgba(255, 77, 109, 0.08);
+        animation-duration: 7s;
+        animation-delay: -5s;
+      }
+      @keyframes orbFloat {
+        from {
+          transform: translateY(0) scale(1);
+        }
+        to {
+          transform: translateY(-40px) scale(1.05);
+        }
+      }
+
+      .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        border: 1px solid var(--border);
+        background: rgba(255, 255, 255, 0.04);
+        backdrop-filter: blur(10px);
+        padding: 8px 16px;
+        border-radius: 100px;
+        font-family: var(--font-mono);
+        font-size: 11px;
+        color: var(--muted);
+        letter-spacing: 0.1em;
+        margin-bottom: 40px;
+        width: fit-content;
+        animation: fadeUp 0.8s ease both;
+      }
+      .hero-badge .dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--accent);
+        animation: pulse 2s ease infinite;
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          box-shadow: 0 0 0 0 rgba(200, 245, 66, 0.4);
+        }
+        50% {
+          box-shadow: 0 0 0 6px rgba(200, 245, 66, 0);
+        }
+      }
+
+      .hero-title {
+        font-size: clamp(64px, 10vw, 160px);
+        font-weight: 800;
+        line-height: 0.92;
+        letter-spacing: -0.04em;
+        position: relative;
+        z-index: 1;
+        animation: fadeUp 0.8s 0.1s ease both;
+        overflow: hidden;
+      }
+      .hero-title .line {
+        display: block;
+        overflow: hidden;
+      }
+      .hero-title .line span {
+        display: inline-block;
+        animation: slideUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+      }
+      .hero-title .line:nth-child(1) span {
+        animation-delay: 0.1s;
+      }
+      .hero-title .line:nth-child(2) span {
+        animation-delay: 0.2s;
+      }
+      .hero-title .line:nth-child(3) span {
+        animation-delay: 0.3s;
+      }
+      @keyframes slideUp {
+        from {
+          transform: translateY(100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      .hero-title .highlight {
+        -webkit-text-stroke: 2px var(--accent);
+        color: transparent;
+        position: relative;
+      }
+      .hero-title .italic {
+        font-style: italic;
+        color: var(--muted);
+      }
+
+      .hero-bottom {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        margin-top: 60px;
+        animation: fadeUp 0.8s 0.4s ease both;
+        position: relative;
+        z-index: 1;
+      }
+      .hero-desc {
+        max-width: 340px;
+        font-family: var(--font-mono);
+        font-size: 13px;
+        line-height: 1.8;
+        color: var(--muted);
+      }
+      .hero-desc strong {
+        color: var(--text);
+      }
+      .hero-cta-group {
+        display: flex;
+        gap: 16px;
+        align-items: center;
+      }
+      .btn-primary {
+        background: var(--accent);
+        color: #000;
+        font-family: var(--font-mono);
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        padding: 16px 32px;
+        border-radius: 100px;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        transition: all 0.3s;
+        position: relative;
+        overflow: hidden;
+      }
+      .btn-primary::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.3),
+          transparent
+        );
+        transform: translateX(-100%);
+        transition: transform 0.4s;
+      }
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 20px 60px rgba(200, 245, 66, 0.3);
+      }
+      .btn-primary:hover::before {
+        transform: translateX(100%);
+      }
+      .btn-ghost {
+        font-family: var(--font-mono);
+        font-size: 12px;
+        color: var(--muted);
+        text-decoration: none;
+        letter-spacing: 0.08em;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: color 0.2s;
+      }
+      .btn-ghost:hover {
+        color: var(--text);
+      }
+
+      .hero-scroll {
+        position: absolute;
+        bottom: 80px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        animation: fadeUp 0.8s 0.6s ease both;
+        z-index: 1;
+      }
+      .scroll-line {
+        width: 1px;
+        height: 60px;
+        background: linear-gradient(to bottom, var(--accent), transparent);
+        animation: scrollLine 2s ease infinite;
+      }
+      @keyframes scrollLine {
+        0%,
+        100% {
+          transform: scaleY(1);
+          opacity: 1;
+        }
+        50% {
+          transform: scaleY(0.5);
+          opacity: 0.5;
+        }
+      }
+      .scroll-text {
+        font-family: var(--font-mono);
+        font-size: 10px;
+        color: var(--muted);
+        letter-spacing: 0.2em;
+        writing-mode: vertical-rl;
+      }
+
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* ── MARQUEE ── */
+      .marquee-strip {
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+        padding: 20px 0;
+        overflow: hidden;
+        background: var(--surface);
+        position: relative;
+      }
+      .marquee-track {
+        display: flex;
+        gap: 0;
+        animation: marqueeScroll 20s linear infinite;
+        white-space: nowrap;
+      }
+      .marquee-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 32px;
+        padding: 0 32px;
+        font-family: var(--font-mono);
+        font-size: 12px;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--muted);
+        flex-shrink: 0;
+      }
+      .marquee-item .sep {
+        color: var(--accent);
+        font-size: 20px;
+      }
+      @keyframes marqueeScroll {
+        from {
+          transform: translateX(0);
+        }
+        to {
+          transform: translateX(-50%);
+        }
+      }
+
+      /* ── SECTIONS SHARED ── */
+      section {
+        padding: 120px 48px;
+      }
+      .section-label {
+        font-family: var(--font-mono);
+        font-size: 11px;
+        color: var(--accent);
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        margin-bottom: 24px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .section-label::before {
+        content: "";
+        width: 24px;
+        height: 1px;
+        background: var(--accent);
+      }
+      .section-title {
+        font-size: clamp(40px, 5vw, 72px);
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        line-height: 1;
+        margin-bottom: 16px;
+      }
+
+      /* ── ABOUT ── */
+      #about {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 80px;
+        align-items: center;
+      }
+      .about-visual {
+        position: relative;
+        aspect-ratio: 3/4;
+        max-height: 600px;
+      }
+      .about-img-frame {
+        position: absolute;
+        inset: 0;
+        border-radius: 24px;
+        overflow: hidden;
+        background: var(--surface);
+        border: 1px solid var(--border);
+      }
+      .about-img-frame::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          135deg,
+          rgba(200, 245, 66, 0.15) 0%,
+          rgba(94, 231, 255, 0.1) 50%,
+          rgba(255, 77, 109, 0.1) 100%
+        );
+        z-index: 1;
+      }
+      .about-img-placeholder {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        display: block;
+        user-select: none;
+      }
+      .about-tag {
+        position: absolute;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        backdrop-filter: blur(10px);
+        padding: 12px 20px;
+        border-radius: 12px;
+        font-family: var(--font-mono);
+        font-size: 12px;
+      }
+      .about-tag.top-right {
+        top: 24px;
+        right: -24px;
+      }
+      .about-tag.bottom-left {
+        bottom: 40px;
+        left: -24px;
+      }
+      .about-tag .val {
+        font-size: 24px;
+        font-weight: 800;
+        color: var(--accent);
+        font-family: var(--font-display);
+      }
+      .about-text .section-title {
+        margin-top: 16px;
+      }
+      .about-p {
+        font-family: var(--font-mono);
+        font-size: 14px;
+        line-height: 1.9;
+        color: var(--muted);
+        margin-bottom: 16px;
+      }
+      .about-p strong {
+        color: var(--text);
+      }
+      .skills-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 32px;
+      }
+      .skill-chip {
+        padding: 10px 20px;
+        border: 1px solid var(--border);
+        border-radius: 100px;
+        border-color: #00e1ff;
+        font-family: var(--font-mono);
+        font-size: 12px;
+        color: var(--muted);
+        letter-spacing: 0.05em;
+        transition:
+          border-color 0.2s,
+          color 0.2s;
+      }
+      .skill-chip:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+      }
+
+      /* ── WORK ── */
+      #work {
+        background: var(--surface);
+      }
+      .work-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        margin-bottom: 64px;
+      }
+      .projects-grid {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        gap: 20px;
+      }
+      .proj-card {
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        overflow: hidden;
+        transition:
+          transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+          box-shadow 0.4s,
+          border-color 0.3s;
+        cursor: pointer;
+        position: relative;
+        color: inherit;
+        text-decoration: none;
+      }
+      .proj-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 40px 80px rgba(66, 224, 245, 0.5);
+        border-color: rgba(255, 255, 255, 0.15);
+      }
+      .proj-card.large {
+        grid-column: span 7;
+      }
+      .proj-card.small {
+        grid-column: span 5;
+      }
+      .proj-card.wide {
+        grid-column: span 12;
+      }
+      .proj-thumb {
+        height: 380px;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .proj-thumb-img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        z-index: 1;
+      }
+      .proj-thumb-bg {
+        position: absolute;
+        inset: 0;
+        transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        z-index: 0;
+      }
+      .proj-card:hover .proj-thumb-bg {
+        transform: scale(1.05);
+      }
+      .proj-thumb-emoji {
+        font-size: 80px;
+        position: relative;
+        z-index: 1;
+      }
+      .proj-tag {
+        position: absolute;
+        top: 16px;
+        left: 16px;
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(10px);
+        padding: 6px 14px;
+        border-radius: 100px;
+        font-family: var(--font-mono);
+        font-size: 10px;
+        color: var(--text);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+      .proj-arrow {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        width: 36px;
+        height: 36px;
+        background: var(--accent);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        color: #000;
+        opacity: 0;
+        transform: scale(0.8);
+        transition:
+          opacity 0.3s,
+          transform 0.3s;
+        z-index: 2;
+      }
+      .proj-card:hover .proj-arrow {
+        opacity: 1;
+        transform: scale(1);
+      }
+      .proj-info {
+        padding: 24px 28px 28px;
+      }
+      .proj-name {
+        font-size: 22px;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        margin-bottom: 8px;
+      }
+      .proj-desc {
+        font-family: var(--font-mono);
+        font-size: 12px;
+        color: var(--muted);
+        line-height: 1.7;
+      }
+      .proj-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid var(--border);
+      }
+      .proj-tech {
+        display: flex;
+        gap: 8px;
+      }
+      .tech-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+      }
+      .proj-year {
+        font-family: var(--font-mono);
+        font-size: 11px;
+        color: var(--muted);
+      }
+
+      /* gradient presets */
+      .grad-1 {
+        background: linear-gradient(
+          135deg,
+          #1a1a2e 0%,
+          #16213e 50%,
+          #0f3460 100%
+        );
+      }
+      .grad-2 {
+        background: linear-gradient(
+          135deg,
+          #0d0d0d 0%,
+          #1a0a0a 50%,
+          #2d0a0a 100%
+        );
+      }
+      .grad-3 {
+        background: linear-gradient(
+          135deg,
+          #0a1628 0%,
+          #0d2137 50%,
+          #112d4e 100%
+        );
+      }
+      .grad-4 {
+        background: linear-gradient(
+          135deg,
+          #0a1a0d 0%,
+          #0d2b10 50%,
+          #163b19 100%
+        );
+      }
+
+      /* ── STATS ── */
+      #stats {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1px;
+        background: var(--border);
+        padding: 0;
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+      }
+      .stat-item {
+        background: var(--bg);
+        padding: 60px 48px;
+        transition: background 0.3s;
+      }
+      .stat-item:hover {
+        background: var(--surface);
+      }
+      .stat-num {
+        font-size: clamp(48px, 5vw, 80px);
+        font-weight: 800;
+        letter-spacing: -0.04em;
+        color: var(--accent);
+        line-height: 1;
+        margin-bottom: 12px;
+      }
+      .stat-label {
+        font-family: var(--font-mono);
+        font-size: 12px;
+        color: var(--muted);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+
+      /* ── Workflows ── */
+      #Workflows {
+        background: var(--bg);
+      }
+      .Workflows-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1px;
+        background: var(--border);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        overflow: hidden;
+        margin-top: 64px;
+      }
+      .Workflows-item {
+        background: var(--surface);
+        padding: 48px;
+        transition: background 0.3s;
+        position: relative;
+        overflow: hidden;
+      }
+      .Workflows-item::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: var(--accent);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.4s;
+      }
+      .Workflows-item:hover::before {
+        transform: scaleX(1);
+      }
+      .Workflows-item:hover {
+        background: #093145;
+      }
+      .Workflows-icon {
+        font-size: 32px;
+        margin-bottom: 24px;
+        display: block;
+        transition: transform 0.3s;
+      }
+      .Workflows-item:hover .Workflows-icon {
+        transform: scale(1.1) rotate(-5deg);
+      }
+      .Workflows-name {
+        font-size: 24px;
+        font-weight: 700;
+        margin-bottom: 12px;
+      }
+      .Workflows-desc {
+        font-family: var(--font-mono);
+        font-size: 13px;
+        color: var(--muted);
+        line-height: 1.8;
+      }
+      .Workflows-num {
+        position: absolute;
+        bottom: 24px;
+        right: 32px;
+        font-size: 80px;
+        font-weight: 800;
+        color: rgba(255, 255, 255, 0.03);
+        line-height: 1;
+        letter-spacing: -0.04em;
+      }
+
+      /* ── PROCESS ── */
+      #process {
+        background: var(--surface);
+      }
+      .process-steps {
+        margin-top: 64px;
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+      }
+      .process-step {
+        display: grid;
+        grid-template-columns: 80px 1fr;
+        gap: 40px;
+        padding: 40px 0;
+        border-bottom: 1px solid var(--border);
+        align-items: start;
+        transition: padding 0.3s;
+        cursor: default;
+      }
+      .process-step:hover {
+        padding-left: 16px;
+      }
+      .step-num {
+        font-family: var(--font-mono);
+        font-size: 13px;
+        color: var(--accent);
+        letter-spacing: 0.1em;
+        padding-top: 4px;
+      }
+      .step-content {
+      }
+      .step-title {
+        font-size: 28px;
+        font-weight: 700;
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+      .step-title .step-emoji {
+        font-size: 20px;
+      }
+      .step-desc {
+        font-family: var(--font-mono);
+        font-size: 13px;
+        color: var(--muted);
+        line-height: 1.8;
+        max-width: 600px;
+      }
+
+      /* ── TESTIMONIALS ── */
+      #testimonials {
+        background: var(--bg);
+        overflow: hidden;
+        padding-bottom: 80px;
+        margin-bottom: 80px;
+      }
+      .testimonials-track {
+        display: flex;
+        gap: 32px;
+        margin-top: 64px;
+        animation: marqueeScroll 30s linear infinite;
+      }
+      .testimonials-track:hover {
+        animation-play-state: paused;
+      }
+      .testi-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 44px;
+        padding-bottom: 40px;
+        width: min(520px, 100%);
+        flex-shrink: 0;
+        transition: border-color 0.3s;
+      }
+      .testi-card:hover {
+        border-color: rgba(0, 238, 255, 0.3);
+      }
+      .testi-stars {
+        color: var(--accent);
+        font-size: 14px;
+        margin-bottom: 16px;
+      }
+      .testi-quote {
+        font-size: 16px;
+        line-height: 1.7;
+        font-weight: 500;
+        margin-bottom: 24px;
+        color: var(--text);
+      }
+      .testi-author {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .testi-avatar {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        background: var(--bg);
+        border: 1px solid var(--border);
+        overflow: hidden;
+      }
+      .testi-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        display: block;
+        border-radius: 50%;
+      }
+      .testi-name {
+        font-weight: 700;
+        font-size: 14px;
+      }
+      .testi-role {
+        font-family: var(--font-mono);
+        font-size: 11px;
+        color: var(--muted);
+      }
+
+      /* ── CONTACT ── */
+      #contact {
+        background: var(--surface);
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+      #contact::before {
+        content: "";
+        position: absolute;
+        top: -200px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 600px;
+        height: 600px;
+        background: radial-gradient(
+          circle,
+          rgba(200, 245, 66, 0.12) 0%,
+          transparent 70%
+        );
+        pointer-events: none;
+      }
+      .contact-big {
+        font-size: clamp(60px, 12vw, 160px);
+        font-weight: 800;
+        letter-spacing: -0.04em;
+        line-height: 0.9;
+        margin: 40px 0;
+        position: relative;
+        z-index: 1;
+      }
+      .contact-big .outline {
+        -webkit-text-stroke: 2px rgba(255, 255, 255, 0.2);
+        color: transparent;
+      }
+      .contact-sub {
+        font-family: var(--font-mono);
+        font-size: 14px;
+        color: var(--muted);
+        margin-bottom: 48px;
+        position: relative;
+        z-index: 1;
+      }
+      .contact-links {
+        display: flex;
+        justify-content: center;
+        gap: 16px;
+        flex-wrap: wrap;
+        position: relative;
+        z-index: 1;
+      }
+      .contact-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 16px 32px;
+        border: 1px solid var(--border);
+        border-radius: 100px;
+        font-family: var(--font-mono);
+        font-size: 13px;
+        color: var(--text);
+        text-decoration: none;
+        transition: all 0.3s;
+        backdrop-filter: blur(10px);
+      }
+      .contact-link:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+        transform: translateY(-3px);
+        box-shadow: 0 20px 40px rgb(66, 224, 245);
+      }
+      .contact-link.primary {
+        background: var(--accent);
+        color: #000;
+        border-color: var(--accent);
+        font-weight: 700;
+      }
+      .contact-link.primary:hover {
+        color: #000;
+        border-color: black;
+        box-shadow: 0 20px 60px rgb(66, 224, 245);
+      }
+      .contact-avatar {
+        width: 160px;
+        height: 160px;
+        border-radius: 50%;
+        object-fit: cover;
+        object-position: center;
+        display: block;
+        margin: 0 auto 34px;
+        border: 1px solid var(--border);
+        box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+      }
+      .contact-socials {
+        display: flex;
+        justify-content: center;
+        gap: 16px;
+        flex-wrap: wrap;
+        margin-top: 16px;
+      }
+
+      /* ── FOOTER ── */
+      footer {
+        border-top: 1px solid var(--border);
+        padding: 32px 48px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: var(--bg);
+      }
+      .footer-left {
+        font-family: var(--font-mono);
+        font-size: 12px;
+        color: var(--muted);
+      }
+      .footer-left a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+      .footer-right {
+        font-family: var(--font-mono);
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      /* ── SCROLL ANIMATIONS ── */
+      .reveal {
+        opacity: 0;
+        transform: translateY(40px);
+        transition:
+          opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+          transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .reveal-delay-1 {
+        transition-delay: 0.1s;
+      }
+      .reveal-delay-2 {
+        transition-delay: 0.2s;
+      }
+      .reveal-delay-3 {
+        transition-delay: 0.3s;
+      }
+      .reveal-delay-4 {
+        transition-delay: 0.4s;
+      }
+
+      /* ── RESPONSIVE ── */
+      @media (max-width: 900px) {
+        nav {
+          padding: 20px 24px;
+        }
+        .nav-links {
+          display: none;
+        }
+        section {
+          padding: 80px 24px;
+        }
+        #hero {
+          padding: 0 24px 60px;
+        }
+        #about {
+          grid-template-columns: 1fr;
+          gap: 40px;
+        }
+        .about-visual {
+          display: none;
+        }
+        .proj-card.large,
+        .proj-card.small {
+          grid-column: span 12;
+        }
+        #stats {
+          grid-template-columns: 1fr 1fr;
+        }
+        .Workflows-grid {
+          grid-template-columns: 1fr;
+        }
+        .hero-bottom {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 32px;
+        }
+        .work-header {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 16px;
+        }
+        footer {
+          flex-direction: column;
+          gap: 12px;
+          text-align: center;
+        }
+        .contact-big {
+          font-size: clamp(48px, 14vw, 100px);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Custom Cursor -->
+    <div id="cursor">
+      <div class="cursor-dot"></div>
+      <div class="cursor-ring"></div>
+    </div>
+
+    <!-- ── NAV ── -->
+    <nav>
+      <a
+        href="#"
+        class="nav-logo"
+        onclick="
+          location.reload();
+          return false;
+        "
+        >Jawad<span>.</span></a
+      >
+      <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#work">Projects</a></li>
+        <li><a href="#Workflows">Workflows</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <a href="#contact" class="nav-pill">Let's Talk →</a>
+    </nav>
+
+    <!-- ── HERO ── -->
+    <section id="hero">
+      <div class="hero-bg-grid"></div>
+      <div class="hero-orb orb1"></div>
+      <div class="hero-orb orb2"></div>
+      <div class="hero-orb orb3"></div>
+
+      <div class="hero-badge">
+        <span class="dot"></span>Available for jobs — 2026
+      </div>
+
+      <h1 class="hero-title">
+        <span class="line"><span>Tawsif</span></span>
+        <span class="line"><span class="highlight">Jawad</span></span>
+        <span class="line"><span class="italic">Efty</span></span>
+      </h1>
+
+      <div class="hero-bottom">
+        <p class="hero-desc">
+          <strong>Aspiring Data Analyst</strong> based in Dhaka.<br />
+          Driven by curiosity and powered by data, I analyze complex datasets to
+          uncover insights, build predictive solutions, and enable smarter
+          decision-making.
+        </p>
+        <div class="hero-cta-group">
+          <a href="#work" class="btn-primary">View Work <span>↓</span></a>
+          <a href="#contact" class="btn-ghost">Or say hello →</a>
+        </div>
+      </div>
+
+      <div class="hero-scroll">
+        <div class="scroll-line"></div>
+        <span class="scroll-text">SCROLL</span>
+      </div>
+    </section>
+
+    <!-- ── MARQUEE ── -->
+    <div class="marquee-strip">
+      <div class="marquee-track">
+        <!-- doubled for infinite loop -->
+        <span class="marquee-item">Python <span class="sep">✦</span></span>
+        <span class="marquee-item">R <span class="sep">✦</span></span>
+        <span class="marquee-item">C# <span class="sep">✦</span></span>
+        <span class="marquee-item">PHP <span class="sep">✦</span></span>
+        <span class="marquee-item">JavaScript <span class="sep">✦</span></span>
+        <span class="marquee-item">SQL <span class="sep">✦</span></span>
+        <span class="marquee-item">HTML5 <span class="sep">✦</span></span>
+        <span class="marquee-item">CSS3 <span class="sep">✦</span></span>
+        <span class="marquee-item">TensorFlow <span class="sep">✦</span></span>
+        <span class="marquee-item"
+          >Scikit-learn <span class="sep">✦</span></span
+        >
+        <span class="marquee-item">Pandas <span class="sep">✦</span></span>
+        <span class="marquee-item">NumPy <span class="sep">✦</span></span>
+        <span class="marquee-item"
+          >Data Cleaning <span class="sep">✦</span></span
+        >
+        <span class="marquee-item"
+          >Data Visualization <span class="sep">✦</span></span
+        >
+        <span class="marquee-item"
+          >Model Evaluation <span class="sep">✦</span></span
+        >
+        <span class="marquee-item"
+          >Predictive Analytics <span class="sep">✦</span></span
+        >
+        <span class="marquee-item">MySQL <span class="sep">✦</span></span>
+        <span class="marquee-item"
+          >Microsoft SQL Server <span class="sep">✦</span></span
+        >
+        <span class="marquee-item">Git <span class="sep">✦</span></span>
+      </div>
+    </div>
+
+    <!-- ── ABOUT ── -->
+    <section id="about">
+      <div class="about-visual">
+        <div class="about-img-frame">
+          <img
+            src="pp1.jpg"
+            alt="Profile photo"
+            class="about-img-placeholder"
+          />
+        </div>
+      </div>
+      <div class="about-text reveal">
+        <div class="section-label">About Me</div>
+        <h2 class="section-title">
+          Turning Data Into<br />Meaningful Insights
+        </h2>
+
+        <p class="about-p">
+          Hi, I'm <strong>Tawsif Jawad</strong> — an aspiring
+          <strong>Data Analyst</strong> and a freshman passionate about data
+          analytics, machine learning, and solving real-world problems with
+          data. I enjoy exploring datasets, finding patterns, and transforming
+          raw information into actionable insights.
+        </p>
+
+        <p class="about-p">
+          As I continue my academic journey, I'm building hands-on experience
+          through projects involving
+          <strong>Python, SQL, Power BI, Excel, and Machine Learning</strong>.
+          My goal is to develop data-driven solutions that help organizations
+          make smarter decisions while continuously learning and growing in the
+          field of analytics.
+        </p>
+        <div class="skills-grid">
+          <span class="skill-chip"
+            ><img
+              src="l1.png"
+              style="width: 20px; height: 20px; object-fit: contain"
+          /></span>
+          <span class="skill-chip"
+            ><img
+              src="l2.png"
+              style="width: 20px; height: 20px; object-fit: contain"
+          /></span>
+          <span class="skill-chip"
+            ><img
+              src="l3.png"
+              style="width: 20px; height: 20px; object-fit: contain"
+          /></span>
+          <span class="skill-chip"
+            ><img
+              src="l4.png"
+              style="width: 20px; height: 20px; object-fit: contain"
+          /></span>
+          <span class="skill-chip"
+            ><img
+              src="l5.png"
+              style="width: 20px; height: 20px; object-fit: contain"
+          /></span>
+          <span class="skill-chip"
+            ><img
+              src="l6.png"
+              style="width: 20px; height: 20px; object-fit: contain"
+          /></span>
+          <span class="skill-chip"
+            ><img
+              src="l7.png"
+              style="width: 20px; height: 20px; object-fit: contain"
+          /></span>
+          <span class="skill-chip"
+            ><img
+              src="l8.png"
+              style="width: 20px; height: 20px; object-fit: contain"
+          /></span>
+          <span class="skill-chip"
+            ><img
+              src="l9.png"
+              style="width: 20px; height: 20px; object-fit: contain"
+          /></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── STATS ── -->
+    <div id="stats">
+      <div class="stat-item reveal">
+        <div class="stat-num" data-target="10">0</div>
+        <div class="stat-label">Projects Shipped</div>
+      </div>
+      <div class="stat-item reveal reveal-delay-1">
+        <div class="stat-num" data-target="4">0</div>
+        <div class="stat-label">AcademicYears Experience</div>
+      </div>
+      <div class="stat-item reveal reveal-delay-2">
+        <div class="stat-num" data-target="15">0</div>
+        <div class="stat-label">Skills Learned</div>
+      </div>
+      <div class="stat-item reveal reveal-delay-3">
+        <div class="stat-num" data-target="1000">0</div>
+        <div class="stat-label">Hours of Learning</div>
+      </div>
+    </div>
+
+    <!-- ── WORK ── -->
+    <section id="work">
+      <div class="work-header reveal">
+        <div>
+          <div class="section-label">Selected Work</div>
+          <h2 class="section-title">Recent Projects</h2>
+        </div>
+        <a href="https://github.com/Tawsif-Jawad" class="btn-ghost"
+          >All projects →</a
+        >
+      </div>
+
+      <div class="projects-grid">
+        <a
+          class="proj-card large reveal"
+          href="https://tawsif-jawad.github.io/Banking-Data-Analytics-and-Machine-Learning/"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <div class="proj-thumb">
+            <img
+              src="project1.png"
+              alt="TripSyncX project screenshot"
+              class="proj-thumb-img"
+            />
+            <div class="proj-thumb-bg grad-1"></div>
+            <span class="proj-tag">Banking Analytics</span>
+            <div class="proj-arrow">↗</div>
+          </div>
+          <div class="proj-info">
+            <div class="proj-name">Banking Data Analytics</div>
+            <div class="proj-desc">
+              A comprehensive data science project focused on analyzing banking
+              data, performing exploratory data analysis, discovering meaningful
+              patterns, and applying machine learning techniques to generate
+              predictive insights.
+            </div>
+            <div class="proj-footer">
+              <div class="proj-tech">
+                <span
+                  class="tech-dot"
+                  style="background: #61dafb"
+                  title="HTML"
+                ></span>
+                <span
+                  class="tech-dot"
+                  style="background: #ffcc00"
+                  title="Data Analysis"
+                ></span>
+              </div>
+              <span class="proj-year">2026</span>
+            </div>
+          </div>
+        </a>
+        <a
+          class="proj-card small reveal reveal-delay-1"
+          href="https://tawsif-jawad.github.io/TripSyncX/"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <div class="proj-thumb">
+            <img
+              src="project2.png"
+              alt="TripSyncX project screenshot"
+              class="proj-thumb-img"
+            />
+            <div class="proj-thumb-bg grad-2"></div>
+            <span class="proj-tag">Ticket Management System</span>
+            <div class="proj-arrow">↗</div>
+          </div>
+          <div class="proj-info">
+            <div class="proj-name">TripSyncX</div>
+            <div class="proj-desc">
+              AI-powered travel planning app with real-time itinerary updates
+              and seamless integration.
+            </div>
+            <div class="proj-footer">
+              <div class="proj-tech">
+                <span class="tech-dot" style="background: #ff4d6d"></span>
+                <span class="tech-dot" style="background: #ffffff"></span>
+              </div>
+              <span class="proj-year">2025</span>
+            </div>
+          </div>
+        </a>
+        <a
+          class="proj-card small reveal reveal-delay-2"
+          href="https://github.com/Tawsif-Jawad/MetroRail-Management-System.git"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <div class="proj-thumb">
+            <img
+              src="project3.jpg"
+              alt="MetroRail Management System project screenshot"
+              class="proj-thumb-img"
+            />
+            <div class="proj-thumb-bg grad-4"></div>
+            <span class="proj-tag">MetroRail Management System</span>
+            <div class="proj-arrow">↗</div>
+          </div>
+          <div class="proj-info">
+            <div class="proj-name">MetroRail Ticketing System</div>
+            <div class="proj-desc">
+              A Java-based Metro Rail Management System with role-based access
+              for Admin, Staff, and Passengers, integrated with an Oracle
+              database for efficient railway operations.
+            </div>
+            <div class="proj-footer">
+              <div class="proj-tech">
+                <span class="tech-dot" style="background: #c8f542"></span>
+                <span class="tech-dot" style="background: #5ee7ff"></span>
+              </div>
+              <span class="proj-year">2024</span>
+            </div>
+          </div>
+        </a>
+        <a
+          class="proj-card large reveal reveal-delay-1"
+          href="https://github.com/Tawsif-Jawad/Music-Streaming-Platform.git"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <div class="proj-thumb">
+            <img
+              src="project4.jpg"
+              alt="Music-Streaming-Platform project screenshot"
+              class="proj-thumb-img"
+            />
+            <div class="proj-thumb-bg grad-3"></div>
+            <div class="proj-thumb-emoji">🏦</div>
+            <span class="proj-tag">Music-Streaming-Platform</span>
+            <div class="proj-arrow">↗</div>
+          </div>
+          <div class="proj-info">
+            <div class="proj-name">Music-Streaming-Platform</div>
+            <div class="proj-desc">
+              A Spotify-inspired music streaming application built with C# (.NET
+              Windows Forms), featuring user authentication, role-based access
+              (Admin, Artist, Audience), playlist management, and an intuitive
+              desktop interface.
+            </div>
+            <div class="proj-footer">
+              <div class="proj-tech">
+                <span class="tech-dot" style="background: #f7931a"></span>
+                <span class="tech-dot" style="background: #3178c6"></span>
+                <span class="tech-dot" style="background: #336791"></span>
+              </div>
+              <span class="proj-year">2024</span>
+            </div>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- ── Workflows ── -->
+    <section id="Workflows">
+      <div class="reveal">
+        <div class="section-label">What I Do</div>
+        <h2 class="section-title">Workflows</h2>
+      </div>
+      <div class="Workflows-grid">
+        <div class="Workflows-item reveal">
+          <span class="Workflows-icon">📊</span>
+          <div class="Workflows-name">Data Strategy</div>
+          <div class="Workflows-desc">
+            Define your analytics roadmap, choose the right KPIs, and align data
+            strategy with business goals for smarter decision-making.
+          </div>
+          <span class="Workflows-num">01</span>
+        </div>
+        <div class="Workflows-item reveal reveal-delay-1">
+          <span class="Workflows-icon">🧹</span>
+          <div class="Workflows-name">Data Cleaning</div>
+          <div class="Workflows-desc">
+            Clean, normalize, and prepare raw datasets so your analysis is
+            accurate, reliable, and ready for modeling.
+          </div>
+          <span class="Workflows-num">02</span>
+        </div>
+        <div class="Workflows-item reveal reveal-delay-2">
+          <span class="Workflows-icon">🤖</span>
+          <div class="Workflows-name">Predictive Modeling</div>
+          <div class="Workflows-desc">
+            Build forecasting and classification models to uncover future
+            trends, detect risks, and optimize performance.
+          </div>
+          <span class="Workflows-num">03</span>
+        </div>
+        <div class="Workflows-item reveal reveal-delay-3">
+          <span class="Workflows-icon">📈</span>
+          <div class="Workflows-name">Dashboarding</div>
+          <div class="Workflows-desc">
+            Deliver interactive dashboards and reports that make insights easy
+            to explore and decisions simple to act on.
+          </div>
+          <span class="Workflows-num">04</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── PROCESS ── -->
+    <section id="process">
+      <div class="reveal">
+        <div class="section-label">How I Work</div>
+        <h2 class="section-title">The Process</h2>
+      </div>
+      <div class="process-steps">
+        <div class="process-step reveal">
+          <div class="step-num">01 —</div>
+          <div class="step-content">
+            <div class="step-title">
+              <span class="step-emoji">�</span> Data Discovery
+            </div>
+            <div class="step-desc">
+              We gather your datasets, identify sources, and assess quality so
+              every analytics decision starts from accurate, trusted data.
+            </div>
+          </div>
+        </div>
+        <div class="process-step reveal reveal-delay-1">
+          <div class="step-num">02 —</div>
+          <div class="step-content">
+            <div class="step-title">
+              <span class="step-emoji">🧹</span> Clean & Transform
+            </div>
+            <div class="step-desc">
+              Raw data becomes actionable through cleaning, enrichment, and
+              modeling, unlocking reliable insights instead of noisy guesses.
+            </div>
+          </div>
+        </div>
+        <div class="process-step reveal reveal-delay-2">
+          <div class="step-num">03 —</div>
+          <div class="step-content">
+            <div class="step-title">
+              <span class="step-emoji">💡</span> Analyze & Visualize
+            </div>
+            <div class="step-desc">
+              We uncover trends, build dashboards, and translate numbers into
+              clear recommendations for smarter business decisions.
+            </div>
+          </div>
+        </div>
+        <div class="process-step reveal reveal-delay-3">
+          <div class="step-num">04 —</div>
+          <div class="step-content">
+            <div class="step-title">
+              <span class="step-emoji">🚀</span> Deploy & Optimize
+            </div>
+            <div class="step-desc">
+              Production analytics, monitoring, and continuous refinement to
+              ensure insights stay accurate, actionable, and aligned with goals.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Recommendations ── -->
+    <section id="testimonials" style="padding-bottom: 0">
+      <div class="reveal">
+        <div class="section-label">Kind Words</div>
+        <h2 class="section-title">Recommendations</h2>
+      </div>
+      <div style="overflow: hidden; margin: 0 -48px">
+        <div class="testimonials-track">
+          <div class="testi-card">
+            <div class="testi-author">
+              <div class="testi-avatar">
+                <img src="pp3.png" alt="Sakib Hossain profile photo" />
+              </div>
+              <div>
+                <div class="testi-name">Sakib Hossain</div>
+                <div class="testi-role">
+                  Computer Science Student | Aspiring Software Engineer |
+                  Seeking Internship Opportunities
+                </div>
+              </div>
+            </div>
+            <div class="testi-quote">
+              "I'v I have had the opportunity to study alongside Tawsif Jawad,
+              and I have always been impressed by his dedication, curiosity, and
+              eagerness to learn. He is a dependable and supportive friend who
+              approaches every task with responsibility and a positive attitude.
+              Throughout our academic journey, Tawsif has demonstrated strong
+              analytical thinking, teamwork, and perseverance. He is always
+              willing to help others and continuously strives to improve his
+              skills. I am confident that he will excel in his career and be a
+              valuable asset to any organisation. I highly recommend Tawsif and
+              wish him every success in his professional journey."
+            </div>
+          </div>
+          <div class="testi-card">
+            <div class="testi-author">
+              <div class="testi-avatar">
+                <img src="pp2.jpeg" alt="Ayon Roy profile photo" />
+              </div>
+              <div>
+                <div class="testi-name">Ayon Roy</div>
+                <div class="testi-role">
+                  Finance Graduate @ NSU | Retail Banking Operations, AML/CFT &
+                  Process Optimization | Ex-Prime Bank PLC
+                </div>
+              </div>
+            </div>
+            <div class="testi-quote">
+              "I've known Tawsif since 2011, when we were students together at
+              Khulna Zilla School. Even then, he stood out for his curiosity and
+              his methodical way of approaching problems — traits that have
+              clearly carried into his academic and professional path. Tawsif is
+              currently pursuing his degree in Computer Science & Engineering at
+              American International University-Bangladesh, where he's built a
+              strong foundation in Python, SQL, Excel, and Power Bl, with a
+              genuine passion for data science and business intelligence. What
+              I've always admired about him is his ability to take complex
+              information and turn it into something clear and actionable — a
+              skill that will serve him well as a data analyst. Beyond his
+              technical abilities, Tawsif is dependable, hardworking, and easy
+              to work with. He brings a thoughtful, detail-oriented approach to
+              everything he takes on, and he's the kind of person who follows
+              through on commitments. I'm confident he'll be a strong addition
+              to any team looking for someone with both analytical rigor and a
+              collaborative spirit. I recommend him without hesitation"
+            </div>
+          </div>
+          <div class="testi-card">
+            <div class="testi-author">
+              <div class="testi-avatar">
+                <img
+                  src="pp4.png"
+                  alt="Muntaseir Husain Bokhari profile photo"
+                />
+              </div>
+              <div>
+                <div class="testi-name">Muntaseir Husain Bokhari</div>
+                <div class="testi-role">
+                  Data Analytics | Focused on ADAS | Aspiring AI Researcher &
+                  Data Scientist | International Award-Winning Portrait
+                  Photographer,13th IIUPE(2025)
+                </div>
+              </div>
+            </div>
+            <div class="testi-quote">
+              "It had the pleasure of working with Tawsif Jawad on several
+              academic projects, and I was consistently impressed by his
+              dedication, analytical mindset, and willingness to learn. Tawsif
+              approaches every challenge with curiosity and determination. He
+              has a strong interest in data analytics and machine learning, and
+              he is always eager to expand his knowledge while applying it to
+              real-world problems. During our collaboration, he demonstrated
+              excellent teamwork, effective communication, and a responsible
+              attitude toward meeting deadlines and delivering quality work. One
+              of Tawsif's greatest strengths is his ability to break down
+              complex problems and approach them methodically. He is dependable,
+              supportive of his teammates, and continuously strives to improve
+              his technical and professional skills. I have no doubt that Tawsif
+              will make valuable contributions as he continues his journey in
+              data analytics. I highly recommend him to anyone looking for a
+              motivated, collaborative, and promising aspiring Data Analyst."
+            </div>
+          </div>
+          <div class="testi-card">
+            <div class="testi-author">
+              <div class="testi-avatar">
+                <img
+                  src="pp5.png"
+                  alt="MD Naimure Rahaman Emon profile photo"
+                />
+              </div>
+              <div>
+                <div class="testi-name">MD Naimure Rahaman Emon</div>
+                <div class="testi-role">
+                  CS Undergrade @ AIUB | Full-Stack Developer | React, Node.js,
+                  PostgreSQL, Docker & Playwright.
+                </div>
+              </div>
+            </div>
+            <div class="testi-quote">
+              "I am pleased to write this letter of recommendation for Tawsif
+              Jawad, whom I have known as both a course mate and project
+              teammate during our Computer Science & Engineering studies at
+              American International University-Bangladesh (AIUB). Throughout
+              our time working together, Tawsif has consistently stood out for
+              his strong analytical mindset and genuine passion for data. He has
+              developed solid skills in Python, SQL, Excel, and Power Bl, and he
+              applies them thoughtfully - not just to complete assignments, but
+              to actually dig into data and extract meaningful insights. His
+              interest in Data Science, Business Intelligence, and Machine
+              Learning is evident in how he approaches problems: methodically,
+              curiously, and with a clear focus on practical, real-world impact.
+              As a teammate, Tawsif is reliable, collaborative, and always
+              willing to contribute more than his fair share of the work. He
+              communicates clearly, breaks down complex technical ideas for the
+              rest of the team, and brings a calm, solutions-oriented attitude
+              even when project deadlines get tight. He's the kind of person who
+              takes ownership of his part of a project while also helping others
+              succeed. I'm confident that Tawsif will be a valuable asset to any
+              team or organization, particularly in a data analyst or BI-focused
+              role. He combines technical competence with a strong work ethic
+              and a genuine drive to keep learning. I recommend him without
+              reservation. Please feel free to reach out if you'd like to
+              discuss his work further."
+            </div>
+          </div>
+          <!-- Duplicate for infinite -->
+          <div class="testi-card">
+            <div class="testi-author">
+              <div class="testi-avatar">
+                <img src="pp3.png" alt="Sakib Hossain profile photo" />
+              </div>
+              <div>
+                <div class="testi-name">Sakib Hossain</div>
+                <div class="testi-role">
+                  Computer Science Student | Aspiring Software Engineer |
+                  Seeking Internship Opportunities
+                </div>
+              </div>
+            </div>
+            <div class="testi-quote">
+              "I'v I have had the opportunity to study alongside Tawsif Jawad,
+              and I have always been impressed by his dedication, curiosity, and
+              eagerness to learn. He is a dependable and supportive friend who
+              approaches every task with responsibility and a positive attitude.
+              Throughout our academic journey, Tawsif has demonstrated strong
+              analytical thinking, teamwork, and perseverance. He is always
+              willing to help others and continuously strives to improve his
+              skills. I am confident that he will excel in his career and be a
+              valuable asset to any organisation. I highly recommend Tawsif and
+              wish him every success in his professional journey."
+            </div>
+          </div>
+          <div class="testi-card">
+            <div class="testi-author">
+              <div class="testi-avatar">
+                <img src="pp2.jpeg" alt="Ayon Roy profile photo" />
+              </div>
+              <div>
+                <div class="testi-name">Ayon Roy</div>
+                <div class="testi-role">
+                  Finance Graduate @ NSU | Retail Banking Operations, AML/CFT &
+                  Process Optimization | Ex-Prime Bank PLC
+                </div>
+              </div>
+            </div>
+            <div class="testi-quote">
+              "I've known Tawsif since 2011, when we were students together at
+              Khulna Zilla School. Even then, he stood out for his curiosity and
+              his methodical way of approaching problems — traits that have
+              clearly carried into his academic and professional path. Tawsif is
+              currently pursuing his degree in Computer Science & Engineering at
+              American International University-Bangladesh, where he's built a
+              strong foundation in Python, SQL, Excel, and Power Bl, with a
+              genuine passion for data science and business intelligence. What
+              I've always admired about him is his ability to take complex
+              information and turn it into something clear and actionable — a
+              skill that will serve him well as a data analyst. Beyond his
+              technical abilities, Tawsif is dependable, hardworking, and easy
+              to work with. He brings a thoughtful, detail-oriented approach to
+              everything he takes on, and he's the kind of person who follows
+              through on commitments. I'm confident he'll be a strong addition
+              to any team looking for someone with both analytical rigor and a
+              collaborative spirit. I recommend him without hesitation"
+            </div>
+          </div>
+          <div class="testi-card">
+            <div class="testi-author">
+              <div class="testi-avatar">
+                <img
+                  src="pp4.png"
+                  alt="Muntaseir Husain Bokhari profile photo"
+                />
+              </div>
+              <div>
+                <div class="testi-name">Muntaseir Husain Bokhari</div>
+                <div class="testi-role">
+                  Data Analytics | Focused on ADAS | Aspiring AI Researcher &
+                  Data Scientist | International Award-Winning Portrait
+                  Photographer,13th IIUPE(2025)
+                </div>
+              </div>
+            </div>
+            <div class="testi-quote">
+              "It had the pleasure of working with Tawsif Jawad on several
+              academic projects, and I was consistently impressed by his
+              dedication, analytical mindset, and willingness to learn. Tawsif
+              approaches every challenge with curiosity and determination. He
+              has a strong interest in data analytics and machine learning, and
+              he is always eager to expand his knowledge while applying it to
+              real-world problems. During our collaboration, he demonstrated
+              excellent teamwork, effective communication, and a responsible
+              attitude toward meeting deadlines and delivering quality work. One
+              of Tawsif's greatest strengths is his ability to break down
+              complex problems and approach them methodically. He is dependable,
+              supportive of his teammates, and continuously strives to improve
+              his technical and professional skills. I have no doubt that Tawsif
+              will make valuable contributions as he continues his journey in
+              data analytics. I highly recommend him to anyone looking for a
+              motivated, collaborative, and promising aspiring Data Analyst."
+            </div>
+          </div>
+          <div class="testi-card">
+            <div class="testi-author">
+              <div class="testi-avatar">
+                <img
+                  src="pp5.png"
+                  alt="MD Naimure Rahaman Emon profile photo"
+                />
+              </div>
+              <div>
+                <div class="testi-name">MD Naimure Rahaman Emon</div>
+                <div class="testi-role">
+                  CS Undergrade @ AIUB | Full-Stack Developer | React, Node.js,
+                  PostgreSQL, Docker & Playwright.
+                </div>
+              </div>
+            </div>
+            <div class="testi-quote">
+              "I am pleased to write this letter of recommendation for Tawsif
+              Jawad, whom I have known as both a course mate and project
+              teammate during our Computer Science & Engineering studies at
+              American International University-Bangladesh (AIUB). Throughout
+              our time working together, Tawsif has consistently stood out for
+              his strong analytical mindset and genuine passion for data. He has
+              developed solid skills in Python, SQL, Excel, and Power Bl, and he
+              applies them thoughtfully - not just to complete assignments, but
+              to actually dig into data and extract meaningful insights. His
+              interest in Data Science, Business Intelligence, and Machine
+              Learning is evident in how he approaches problems: methodically,
+              curiously, and with a clear focus on practical, real-world impact.
+              As a teammate, Tawsif is reliable, collaborative, and always
+              willing to contribute more than his fair share of the work. He
+              communicates clearly, breaks down complex technical ideas for the
+              rest of the team, and brings a calm, solutions-oriented attitude
+              even when project deadlines get tight. He's the kind of person who
+              takes ownership of his part of a project while also helping others
+              succeed. I'm confident that Tawsif will be a valuable asset to any
+              team or organization, particularly in a data analyst or BI-focused
+              role. He combines technical competence with a strong work ethic
+              and a genuine drive to keep learning. I recommend him without
+              reservation. Please feel free to reach out if you'd like to
+              discuss his work further."
+            </div>
+          </div>
+          <div class="testi-card">
+            <div class="testi-author">
+              <div class="testi-avatar">
+                <img
+                  src="pp5.png"
+                  alt="MD Naimure Rahaman Emon profile photo"
+                />
+              </div>
+              <div>
+                <div class="testi-name">MD Naimure Rahaman Emon</div>
+                <div class="testi-role">
+                  CS Undergrade @ AIUB | Full-Stack Developer | React, Node.js,
+                  PostgreSQL, Docker & Playwright.
+                </div>
+              </div>
+            </div>
+            <div class="testi-quote">
+              "I am pleased to write this letter of recommendation for Tawsif
+              Jawad, whom I have known as both a course mate and project
+              teammate during our Computer Science & Engineering studies at
+              American International University-Bangladesh (AIUB). Throughout
+              our time working together, Tawsif has consistently stood out for
+              his strong analytical mindset and genuine passion for data. He has
+              developed solid skills in Python, SQL, Excel, and Power Bl, and he
+              applies them thoughtfully - not just to complete assignments, but
+              to actually dig into data and extract meaningful insights. His
+              interest in Data Science, Business Intelligence, and Machine
+              Learning is evident in how he approaches problems: methodically,
+              curiously, and with a clear focus on practical, real-world impact.
+              As a teammate, Tawsif is reliable, collaborative, and always
+              willing to contribute more than his fair share of the work. He
+              communicates clearly, breaks down complex technical ideas for the
+              rest of the team, and brings a calm, solutions-oriented attitude
+              even when project deadlines get tight. He's the kind of person who
+              takes ownership of his part of a project while also helping others
+              succeed. I'm confident that Tawsif will be a valuable asset to any
+              team or organization, particularly in a data analyst or BI-focused
+              role. He combines technical competence with a strong work ethic
+              and a genuine drive to keep learning. I recommend him without
+              reservation. Please feel free to reach out if you'd like to
+              discuss his work further."
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── CONTACT ── -->
+    <section id="contact">
+      <div class="section-label" style="justify-content: center">
+        Start a project
+      </div>
+      <div class="contact-big">
+        Got an <span class="outline">idea?</span><br />Let's build it.
+      </div>
+      <p class="contact-sub">Drop me a message — I respond within 24 hours.</p>
+      <div class="contact-links">
+        <a href="mailto:tawsifjawad12@gmail.com" class="contact-link primary"
+          >✉️ tawsifjawad12@gmail.com</a
+        >
+      </div>
+      <div class="contact-socials">
+        <a
+          href="https://x.com/tawsifjawad12?s=11&t=p0onas6bydZ5-iSCBKhbSg"
+          class="contact-link"
+          >X</a
+        >
+        <a
+          href="https://www.linkedin.com/in/tawsif-jawad-efty/"
+          class="contact-link"
+          >LinkedIn</a
+        >
+        <a href="https://github.com/Tawsif-Jawad" class="contact-link"
+          >GitHub</a
+        >
+      </div>
+    </section>
+
+    <!-- ── FOOTER ── -->
+    <footer>
+      <div class="footer-left">
+        © 2026 <a href="#">Tawsif Jawad</a> — All rights reserved.
+      </div>
+      <div class="footer-right">Designed & built with ❤️</div>
+    </footer>
+
+    <script>
+      // ── Cursor ──
+      const cursor = document.getElementById("cursor");
+      const dot = cursor.querySelector(".cursor-dot");
+      const ring = cursor.querySelector(".cursor-ring");
+      let mx = 0,
+        my = 0,
+        rx = 0,
+        ry = 0;
+      document.addEventListener("mousemove", (e) => {
+        mx = e.clientX;
+        my = e.clientY;
+        dot.style.left = mx + "px";
+        dot.style.top = my + "px";
+      });
+      function animateRing() {
+        rx += (mx - rx) * 0.12;
+        ry += (my - ry) * 0.12;
+        ring.style.left = rx + "px";
+        ring.style.top = ry + "px";
+        requestAnimationFrame(animateRing);
+      }
+      animateRing();
+      document
+        .querySelectorAll(
+          "a,button,.proj-card,.service-item,.Workflows-item,.skill-chip",
+        )
+        .forEach((el) => {
+          el.addEventListener("mouseenter", () =>
+            document.body.classList.add("hovering"),
+          );
+          el.addEventListener("mouseleave", () =>
+            document.body.classList.remove("hovering"),
+          );
+        });
+
+      // ── Scroll Reveal ──
+      const reveals = document.querySelectorAll(".reveal");
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) e.target.classList.add("visible");
+          });
+        },
+        { threshold: 0.15 },
+      );
+      reveals.forEach((el) => io.observe(el));
+
+      // ── Counter Animation ──
+      const counters = document.querySelectorAll(".stat-num[data-target]");
+      const cIO = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (!e.isIntersecting) return;
+            const el = e.target,
+              target = +el.dataset.target,
+              dur = 1500;
+            let start = null;
+            function step(ts) {
+              if (!start) start = ts;
+              const progress = Math.min((ts - start) / dur, 1);
+              const ease = 1 - Math.pow(1 - progress, 3);
+              el.textContent = Math.floor(ease * target);
+              if (progress < 1) requestAnimationFrame(step);
+              else el.textContent = target;
+            }
+            requestAnimationFrame(step);
+            cIO.unobserve(el);
+          });
+        },
+        { threshold: 0.5 },
+      );
+      counters.forEach((c) => cIO.observe(c));
+
+      // ── Nav shrink on scroll ──
+      const nav = document.querySelector("nav");
+      window.addEventListener("scroll", () => {
+        if (window.scrollY > 50) {
+          nav.style.padding = "16px 48px";
+        } else {
+          nav.style.padding = "24px 48px";
+        }
+      });
+    </script>
+  </body>
+</html>
